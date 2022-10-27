@@ -20,7 +20,7 @@ var (
 func init() {
 	rootCmd.AddCommand(getCmd)
 	getCmd.PersistentFlags().StringVarP(&inputFile, "file", "f", "", "user account info files in json format")
-	getCmd.PersistentFlags().StringVarP(&format, "format", "format", "csv", "output format")
+	getCmd.PersistentFlags().StringVarP(&format, "format", "", "csv", "output format")
 	getCmd.PersistentFlags().StringVarP(&output, "output", "o", "", "output to un-stdout")
 }
 
@@ -29,7 +29,7 @@ var getCmd = &cobra.Command{
 	Short: "get json content in different format",
 	Long:  `get json content in different format`,
 	RunE: func(_ *cobra.Command, _ []string) error {
-		if err := translate(inputoutput); err != nil {
+		if err := translate(inputFile, output); err != nil {
 			return err
 		}
 		return nil
@@ -41,11 +41,10 @@ func translate(in, out string) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
 	accounts := types.Accounts{
 		Data: []types.Account{},
 	}
-	if err := json.Unmarshal(file, accounts); err != nil {
+	if err := json.Unmarshal(file, &accounts); err != nil {
 		return err
 	}
 
@@ -63,7 +62,7 @@ func translate(in, out string) error {
 		}
 
 		for _, a := range accounts.Data {
-			line := fmt.Sprintf("%d,%d,%s,%s,%s,%s,%s,%s,%s,%s\n",
+			line := fmt.Sprintf("%d,%s,%s,%s,%s,%s,%s,%s,%d,%d\n",
 				a.ConsoleLogin, a.CountryCode, a.CreateTime, a.Email, a.Name, a.NickName, a.PhoneNum, a.Remark, a.Uid, a.Uin)
 			if _, err := outputFile.Write([]byte(line)); err != nil {
 				return err
@@ -72,8 +71,8 @@ func translate(in, out string) error {
 
 		return nil
 	}
-	for _, a := range accounts.Data[1:] {
-		line := fmt.Sprintf("ConsoleLogin:%d,CountryCode:%d,CreateTime:%s,Email:%s,Name:%s,NickName:%s,PhoneNum:%s,Remark:%s,Uid:%s,Uin:%s\n",
+	for _, a := range accounts.Data {
+		line := fmt.Sprintf("ConsoleLogin:%d,CountryCode:%s,CreateTime:%s,Email:%s,Name:%s,NickName:%s,PhoneNum:%s,Remark:%s,Uid:%d,Uin:%d\n",
 			a.ConsoleLogin, a.CountryCode, a.CreateTime, a.Email, a.Name, a.NickName, a.PhoneNum, a.Remark, a.Uid, a.Uin)
 		fmt.Println(line)
 	}

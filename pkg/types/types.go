@@ -6,13 +6,13 @@ type Accounts struct {
 
 type Account struct {
 	ConsoleLogin int    `json:"ConsoleLogin"`
-	CountryCode  int    `json:"CountryCode"`
+	CountryCode  string `json:"CountryCode"`
 	CreateTime   string `json:"CreateTime"`
 	Email        string `json:"Email"`
 	Name         string `json:"Name"`
 	NickName     string `json:"NickName"`
 	PhoneNum     string `json:"PhoneNum"`
 	Remark       string `json:"Remark"`
-	Uid          string `json:"Uid"`
-	Uin          string `json:"Uin"`
+	Uid          int64  `json:"Uid"`
+	Uin          int64  `json:"Uin"`
 }
