@@ -2,7 +2,11 @@ module github.com/chenliu1993/easy-tool
 
 go 1.18
 
-require github.com/spf13/cobra v1.6.1
+require (
+	github.com/spf13/cobra v1.6.1
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cam v1.0.525
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.525
+)
 
 require (
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
