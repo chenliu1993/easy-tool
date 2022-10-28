@@ -18,16 +18,16 @@ var (
 )
 
 func init() {
-	rootCmd.AddCommand(getCmd)
-	getCmd.PersistentFlags().StringVarP(&inputFile, "file", "f", "", "user account info files in json format")
-	getCmd.PersistentFlags().StringVarP(&format, "format", "", "csv", "output format")
-	getCmd.PersistentFlags().StringVarP(&output, "output", "o", "", "output to un-stdout")
+	rootCmd.AddCommand(translateUsersCmd)
+	translateUsersCmd.PersistentFlags().StringVarP(&inputFile, "file", "f", "", "user account info files in json format")
+	translateUsersCmd.PersistentFlags().StringVarP(&format, "format", "", "csv", "output format")
+	translateUsersCmd.PersistentFlags().StringVarP(&output, "output", "o", "", "output to un-stdout")
 }
 
-var getCmd = &cobra.Command{
-	Use:   "get",
-	Short: "get json content in different format",
-	Long:  `get json content in different format`,
+var translateUsersCmd = &cobra.Command{
+	Use:   "translate-users",
+	Short: "translate-users json content in different format",
+	Long:  `translate-users translate the userinfo got from api tencent in json into different format`,
 	RunE: func(_ *cobra.Command, _ []string) error {
 		if err := translate(inputFile, output); err != nil {
 			return err
